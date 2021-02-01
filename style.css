@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+    padding: 0;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+#a{
+    width: 100px;
+    height: 100px;
+    background-color: rebeccapurple;
+
+}
+
+#target { 
+    border: 1px solid black;
+}
+
+.color-style{
+    background-color: yellow;
+    border:1px solid black;
+    font-weight: bold;
+    color:black;
+    width: auto;
+    height: 2em;
+}
+
+.show {
+    background-color: blue;
+    columns: white;
+    font-weight: bold;
+    height: 3em;
+
+}
+
+.mark-line{
+    text-decoration:line-through;
+}
+
+.red{
+    color:red;
+}
+.big{
+    width: 10em;
+    height: 10em;
+    background-color: royalblue;
+    border: 1px solid black;
+
+}
+
+.moving-item{ 
+    background-color: green;
+    width: 1em;
+    height: 1em;
+    z-index: 1;
+
+}
