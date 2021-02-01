@@ -18,13 +18,10 @@ $(document).ready(function () {
     $("#target").addClass("mark-line  red");
   });
 
-  //   $(".big").mousemove(function(e){
-  //       console.log(e.pageX,e.pageY)
-  //   })
 
+// this is going to be the best code ever
   $(".moving-item").mousedown(function (e) {
     e.preventDefault();
-    // console.log(e.pageX, e.pageY);
     $(".moving-item").mousemove(function (e) {
       // console.log(e.pageX,e.pageY)
       let pos = $(".moving-item").position();
@@ -38,12 +35,5 @@ $(document).ready(function () {
   });
 
   $(document).mouseup(function () {
-    //   alert("I try to cancle the event ")
     $(".moving-item").off("mousemove");
   });
-
-  //   $(".big").mouseup(function (e) {
-  //     console.log("I am in mouseup");
-  //     go = false;
-  //   });
-});
