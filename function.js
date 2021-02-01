@@ -37,3 +37,5 @@ $(document).ready(function () {
   $(document).mouseup(function () {
     $(".moving-item").off("mousemove");
   });
+});
+    
