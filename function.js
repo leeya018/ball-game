@@ -22,23 +22,24 @@ $(document).ready(function () {
   //       console.log(e.pageX,e.pageY)
   //   })
 
-  $(".big").mousedown(function (e) {
+  $(".moving-item").mousedown(function (e) {
     e.preventDefault();
-    console.log(e.pageX, e.pageY);
-    $(".big").mousemove(function (e) {
+    // console.log(e.pageX, e.pageY);
+    $(".moving-item").mousemove(function (e) {
       // console.log(e.pageX,e.pageY)
       let pos = $(".moving-item").position();
+       console.log($(this).height())
       $(".moving-item").css({
         position: "absolute",
-        top: e.pageY,
-        left: e.pageX,
+        top: e.pageY - $(this).height()/2,
+        left: e.pageX - $(this).width()/2,
       });
     });
   });
 
   $(document).mouseup(function () {
     //   alert("I try to cancle the event ")
-    $(".big").off("mousemove");
+    $(".moving-item").off("mousemove");
   });
 
   //   $(".big").mouseup(function (e) {

@@ -51,8 +51,8 @@ body{
 
 .moving-item{ 
     background-color: green;
-    width: 1em;
-    height: 1em;
+    width: 100px;
+    height: 100px;
     z-index: 1;
 
 }
