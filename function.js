@@ -18,24 +18,28 @@ $(document).ready(function () {
     $("#target").addClass("mark-line  red");
   });
 
-
-// this is going to be the best code ever
+  let go = false;
+  // this is going to be the best code ever
   $(".moving-item").mousedown(function (e) {
     e.preventDefault();
-    $(".moving-item").mousemove(function (e) {
-      // console.log(e.pageX,e.pageY)
-      let pos = $(".moving-item").position();
-       console.log($(this).height())
-      $(".moving-item").css({
+    go = true;
+  });
+  $(document).mousemove(function (e) {
+    // console.log(e.pageX,e.pageY)
+    if (go) {
+      let item = $(".moving-item");
+      let pos = item.position();
+      console.log(item.height());
+      item.css({
         position: "absolute",
-        top: e.pageY - $(this).height()/2,
-        left: e.pageX - $(this).width()/2,
+        top: e.pageY - item.height() / 2,
+        left: e.pageX - item.width() / 2,
       });
-    });
+    }
   });
 
   $(document).mouseup(function () {
+    go = false;
     $(".moving-item").off("mousemove");
   });
 });
-    
