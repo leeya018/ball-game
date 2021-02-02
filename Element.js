@@ -36,6 +36,7 @@ class MovingElement extends Element {
     }, 1000);
   }
 
+
   showElement() {
     this.createElement();
     this.positionElement();
@@ -68,7 +69,13 @@ class MovingElement extends Element {
       left: randX,
     });
   }
-
+  checkCollision(){
+    let el = $(`.${this.className}`)
+    let {left ,top } = el.position()
+    if(left < 100 && top < 100 ){
+      alert("collision")
+    }
+  }
   addHandlers() {
     let go = false;
     let self = this;
@@ -83,6 +90,7 @@ class MovingElement extends Element {
     });
     $(document).mousemove(function (e) {
       if (go) {
+        self.checkCollision()
         element.css({
           position: "absolute",
           top: e.pageY - element.height() / 2,
