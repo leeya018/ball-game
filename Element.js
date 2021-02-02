@@ -7,9 +7,9 @@ class Position {
 
 class Element {
   constructor(width, height, score) {
-    this.position = null;
     this.width = width;
     this.height = height;
+    this.position = this.calculateRandomPosition();
     this.score = score;
   }
   calculateRandomPosition() {
@@ -18,7 +18,7 @@ class Element {
 
     let randX = Math.random() * (screenWidth - this.width);
     let randY = Math.random() * (screenHeight - this.height);
-    this.position = new Position(randX, randY);
+    return new Position(randX, randY);
   }
   getPosition() {
     let { x, y } = this.position;
@@ -31,6 +31,5 @@ class Element {
 }
 
 let e = new Element(100, 100, 1);
-e.calculateRandomPosition();
 console.log(e.getPosition());
 console.log(e.getMiddle());
