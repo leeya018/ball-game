@@ -4,21 +4,19 @@ class Element {
     this.width = width;
     this.height = height;
   }
-  showElement(){
+  showElement() {
     $(".container").append(`<div class=${this.className}>hello</div>`);
     $(`.${this.className}`).css({
-      top:0,
-      left:0,
+      top: 0,
+      left: 0,
       width: this.width + "px",
       height: this.height + "px",
-      backgroundColor:"yellow"
-    })
-
+      backgroundColor: "yellow",
+    });
   }
-
 }
 class MovingElement extends Element {
-  constructor(className,width,height, score) {
+  constructor(className, width, height, score) {
     super(className, width, height);
     this.score = score;
     this.timer = new Timer("small-timer", className, 4);
@@ -35,7 +33,6 @@ class MovingElement extends Element {
       }
     }, 1000);
   }
-
 
   showElement() {
     this.createElement();
@@ -58,22 +55,30 @@ class MovingElement extends Element {
     $(`.${this.className}`).remove();
     this.timer.stopTime();
   }
+
+  positionIsOverTarget(x,y){
+    return  x >= 0 && x <= 100 && y >= 0 && y <= 100
+  }
   positionElement() {
     const screenWidth = 1536;
     const screenHeight = 864;
-    let randX = Math.random() * (screenWidth - this.width);
-    let randY = Math.random() * (screenHeight - this.height);
+    let randX = 0;
+    let randY = 0;
+    while (this.positionIsOverTarget(randX,randY)) {
+      randX = Math.random() * (screenWidth - this.width);
+      randY = Math.random() * (screenHeight - this.height);
+    }
     $(`.${this.className}`).css({
       position: "absolute",
       top: randY,
       left: randX,
     });
   }
-  checkCollision(){
-    let el = $(`.${this.className}`)
-    let {left ,top } = el.position()
-    if(left < 100 && top < 100 ){
-      alert("collision")
+  checkCollision() {
+    let el = $(`.${this.className}`);
+    let { left, top } = el.position();
+    if (left < 100 && top < 100) {
+      alert("collision");
     }
   }
   addHandlers() {
@@ -90,7 +95,7 @@ class MovingElement extends Element {
     });
     $(document).mousemove(function (e) {
       if (go) {
-        self.checkCollision()
+        self.checkCollision();
         element.css({
           position: "absolute",
           top: e.pageY - element.height() / 2,

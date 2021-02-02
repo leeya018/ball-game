@@ -12,6 +12,16 @@ class Game {
         this.timer.createElement(100,0)
         this.timer.startTime()
         // this.checkCollisionInterval()
+        this.monitorGame()
+    }
+
+    monitorGame(){
+        setInterval(() => {
+            if(this.timer.getTime() === 600){
+                alert("game over")
+            }
+        }, 1000)
+        
     }
 
 }
