@@ -1,11 +1,7 @@
 $(document).ready(function () {
   console.log("document loaded");
-  let e = new Element(1, "a");
-  e.showElement();
-  setTimeout(() => {
-    e.getPosition();
-  }, 1000);
-
+  let g = new Game();
+  g.startGame();
   // e.showElement()
 
   // let container = $(".container")

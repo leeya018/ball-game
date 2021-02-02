@@ -1,15 +1,25 @@
-class Position {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
 class Element {
-  constructor(score, className) {
+  constructor(className, width, height) {
     this.className = className;
-    this.width = 100;
-    this.height = 100;
+    this.width = width;
+    this.height = height;
+  }
+  showElement(){
+    $(".container").append(`<div class=${this.className}>hello</div>`);
+    $(`.${this.className}`).css({
+      top:0,
+      left:0,
+      width: this.width + "px",
+      height: this.height + "px",
+      backgroundColor:"yellow"
+    })
+
+  }
+
+}
+class MovingElement extends Element {
+  constructor(className,width,height, score) {
+    super(className, width, height);
     this.score = score;
     this.timer = new Timer("small-timer", className, 4);
     this.enableElem = false;
@@ -91,11 +101,11 @@ class Element {
     return this.score;
   }
   getPosition() {
-    let { left ,top }=  $(`.${this.className}`).position()
+    let { left, top } = $(`.${this.className}`).position();
     return { top, left };
   }
   getBorders() {
-    let { left, top } = this.getPosition()
+    let { left, top } = this.getPosition();
     return { top, left, right: left + width, bottom: top + height };
   }
   getMiddle() {
@@ -103,4 +113,3 @@ class Element {
     return { x: this.width / 2 + left, y: this.height / 2 + top };
   }
 }
-
