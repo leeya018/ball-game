@@ -1,5 +1,14 @@
 $(document).ready(function () {
   console.log("document loaded");
+  let  e = new Element(2,"a")
+  e.showElement()
+  // let container = $(".container")
+  // container.append('<div class="new-div">hello</div>');
+  // $('.new-div').css({
+  //   position: "absolute",
+  //   top: 111,
+  //   left: 100,
+  // });    
   $("#target").click(function () {
     alert("Handler for .click() called.");
     console.log("object");
