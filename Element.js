@@ -7,17 +7,30 @@ class Position {
 
 class Element {
   constructor(score, className) {
-    this.className = className
+    this.className = className;
     this.width = 100;
     this.height = 100;
     this.score = score;
-    this.position =null
+    this.timer = new Timer("small-timer", className, 4);
+    this.enableElem = false;
+    this.checkTimer();
   }
 
-  showElement(){
-    this.createElement()
-    this.position = this.positionElement()
-    this.addHandlers()
+  checkTimer() {
+    let inter = setInterval(() => {
+      if (this.timer.getTime() === 1) {
+        console.log("1");
+        this.enableElem = true;
+        clearInterval(inter);
+      }
+    }, 1000);
+  }
+
+  showElement() {
+    this.createElement();
+    this.positionElement();
+    this.addHandlers();
+    this.timer.startTime();
   }
 
   createElement() {
@@ -27,6 +40,12 @@ class Element {
       height: this.height + "px",
       backgroundColor: this.className === "a" ? "blue" : "red",
     });
+    this.timer.createElement();
+  }
+  removeElement() {
+    console.log("remove");
+    $(`.${this.className}`).remove();
+    this.timer.stopTime();
   }
   positionElement() {
     const screenWidth = 1536;
@@ -38,17 +57,19 @@ class Element {
       top: randY,
       left: randX,
     });
-
-    return new Position(randX, randY);
   }
 
   addHandlers() {
     let go = false;
-    let element = $(`.${this.className}`)
+    let self = this;
+    let element = $(`.${this.className}`);
     element.mousedown(function (e) {
-      console.log("mouse down")
+      console.log("mouse down");
       e.preventDefault();
-      go = true;
+      console.log(self.enableElem);
+      if (self.enableElem) {
+        go = true;
+      }
     });
     $(document).mousemove(function (e) {
       if (go) {
@@ -70,15 +91,16 @@ class Element {
     return this.score;
   }
   getPosition() {
-    let { x, y } = this.position;
-    return { x, y };
+    let { left ,top }=  $(`.${this.className}`).position()
+    return { top, left };
+  }
+  getBorders() {
+    let { left, top } = this.getPosition()
+    return { top, left, right: left + width, bottom: top + height };
   }
   getMiddle() {
-    let { x, y } = this.position;
-    return { x: this.width / 2 + x, y: this.height / 2 + y };
+    let { left, top } = this.getPosition();
+    return { x: this.width / 2 + left, y: this.height / 2 + top };
   }
 }
 
-// let e = new Element( 1);
-// console.log(e.getPosition());
-// console.log(e.getMiddle());
