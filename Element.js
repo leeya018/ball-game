@@ -87,7 +87,7 @@ class MovingElement extends Element {
         this.updatePointsCallback(this.score)
       }
       $(`.${this.className }`).remove()
-      alert("collision")
+      // alert("collision")
     }
   }
   addHandlers() {
