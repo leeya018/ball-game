@@ -3,6 +3,11 @@ body{
     padding: 0;
 
 }
+.score{
+    position: absolute;
+    left:50vw;
+    top:0;
+}
 
 /* #a{
     width: 100px;

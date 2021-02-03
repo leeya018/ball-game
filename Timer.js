@@ -21,11 +21,15 @@ class Timer {
   getTime() {
     return this.time;
   }
+  setTime(time){
+    this.time = time
+  }
   getTimeStr() {
     var minutes = Math.floor(this.time / 60);
     var seconds = this.time - minutes * 60;
     return `${minutes}:${seconds}`;
   }
+
   startTime() {
     $(`.${this.className}`).text(this.getTimeStr());
     if (this.direction === "forward") {
@@ -50,7 +54,7 @@ class Timer {
       this.time -= 1;
       if (this.time === 0) {
         this.stopTime();
-        $(`.${this.className}`).remove();
+        // $(`.${this.className}`).remove();
       }
     }, 1000);
   }

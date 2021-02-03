@@ -16,8 +16,9 @@ class Element {
   }
 }
 class MovingElement extends Element {
-  constructor(className, width, height, score) {
+  constructor(className, width, height, score,updatePointsCallback) {
     super(className, width, height);
+    this.updatePointsCallback = updatePointsCallback
     this.score = score;
     this.timer = new Timer("small-timer", className, 4);
     this.enableElem = false;
@@ -26,10 +27,14 @@ class MovingElement extends Element {
 
   checkTimer() {
     let inter = setInterval(() => {
-      if (this.timer.getTime() === 1) {
+      if (this.timer.getTime() === 0) {
         console.log("1");
         this.enableElem = true;
-        clearInterval(inter);
+        this.timer.setTime(4)
+        this.timer.startTime()
+        if(this.enableElem ){
+          clearInterval(inter);
+        }
       }
     }, 1000);
   }
@@ -77,8 +82,12 @@ class MovingElement extends Element {
   checkCollision() {
     let el = $(`.${this.className}`);
     let { left, top } = el.position();
-    if (left < 100 && top < 100) {
-      alert("collision");
+    if (left < 100 && top < 100 ) {
+      if(this.timer.getTime()>0){
+        this.updatePointsCallback(this.score)
+      }
+      $(`.${this.className }`).remove()
+      alert("collision")
     }
   }
   addHandlers() {
