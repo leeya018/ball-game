@@ -1,61 +1,38 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
 body{
-    margin: 0;
-    padding: 0;
-
+    margin:0;
+    width:100vw;
+    height: 100vh;
 }
-.score{
+
+.item {
     position: absolute;
-    left:50vw;
-    top:0;
+    width:100px;
+    height: 100px;
 }
 
-/* #a{
+.ball{
+    top:100px;
+    left: 500px;
+    background-color: red;
+}
+
+.basket{
+    background-color: black;
+}
+.timer{
+    position: absolute;
+    left:50%;
+    border:1px solid black ; 
+    width:100px;
+    height: 30px;
+}
+.a,.b{
+    position: absolute;
+    background-color:black;
     width: 100px;
     height: 100px;
-    background-color: rebeccapurple;
-
 }
-
-#target { 
-    border: 1px solid black;
-}
-
-.color-style{
-    background-color: yellow;
-    border:1px solid black;
-    font-weight: bold;
-    color:black;
-    width: auto;
-    height: 2em;
-}
-
-.show {
-    background-color: blue;
-    columns: white;
-    font-weight: bold;
-    height: 3em;
-
-}
-
-.mark-line{
-    text-decoration:line-through;
-}
-
-.red{
-    color:red;
-}
-.big{
-    width: 10em;
-    height: 10em;
-    background-color: royalblue;
-    border: 1px solid black;
-
-}
-
-.moving-item{ 
-    background-color: green;
-    width: 100px;
-    height: 100px;
-    z-index: 1;
-
-} */

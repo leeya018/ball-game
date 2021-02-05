@@ -1,85 +1,44 @@
-class Timer {
-  constructor(className, parentClass, startTime) {
-    this.direction = startTime === 0 ? "forward" : "backward";
-    this.time = startTime;
-    this.interval;
-    this.className = className;
-    this.parentClass = parentClass;
-  }
-  createElement(top = 0, left = 100) {
-    $(`.${this.parentClass}`).append(`<span class=${this.className}></span>`);
-    $(`.${this.className}`).css({
-      position: "absolute",
-      top: top + "px",
-      left: left + "px",
-      width: "60px",
-      height: "20px",
-      border: "1px solid black",
-    });
-  }
 
-  getTime() {
-    return this.time;
-  }
-  setTime(time){
-    this.time = time
-  }
-  getTimeStr() {
-    var minutes = Math.floor(this.time / 60);
-    var seconds = this.time - minutes * 60;
-    return `${minutes}:${seconds}`;
-  }
-
-  startTime() {
-    $(`.${this.className}`).text(this.getTimeStr());
-    if (this.direction === "forward") {
-      this.countForward();
-    } else {
-      this.countBackward();
+export default class Timer{
+    constructor(className,time){
+        this.time = time
+        this.className = className
+        this.interval = null
+        
     }
-  }
+    start(){
+        let updateTime = this.updateTime.bind(this)
+        this.interval = setInterval(updateTime,1000)
+    }
+    formatTimerTxt(){
+        let minutes = Math.floor(this.time / 60);
+        let seconds = this.time % 60;
+        let minutesStr = minutes<10 ? '0'+minutes:minutes
+        let secondsStr = seconds<10 ? '0'+seconds:seconds
+        return `${minutesStr}:${secondsStr}`
+    }
+    updateTime(){
+        this.time  += 1 
+        let timeSpan = this.getHtml()
+        timeSpan.innerText = this.formatTimerTxt()
+        console.log(this.time)
+    }
+    stop(){
+        clearInterval(this.interval) 
+    }
+    getHtml(){
+        return document.querySelector(`.${this.className}`)
+    }
+    createHtml(){
+        let timerSpan = document.createElement("span")
+        timerSpan.classList.add(this.className)
+        timerSpan.innerText = this.formatTimerTxt()
+        return timerSpan
 
-  countForward() {
-    this.time += 1;
-    this.interval = setInterval(() => {
-      $(`.${this.className}`).text(this.getTimeStr());
-      this.time += 1;
-    }, 1000);
-  }
-
-  countBackward() {
-    this.time -= 1;
-    this.interval = setInterval(() => {
-      $(`.${this.className}`).text(this.getTimeStr());
-      this.time -= 1;
-      if (this.time === 0) {
-        this.stopTime();
-        // $(`.${this.className}`).remove();
-      }
-    }, 1000);
-  }
-  stopTime() {
-    clearInterval(this.interval);
-  }
+    }
+    
+    removeHtml(){
+        let timerSpan = document.querySelector(`.${this.className}`)
+        timerSpan.remove()
+    }
 }
-
-function wait() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, 2000);
-  });
-}
-
-// let t = new Timer();
-// t.startTime();
-// console.log(t.getTime());
-//  wait().then(()=>{
-//      console.log(t.getTime());
-
-//  }).then(()=>{
-//      t.stopTime()
-//      wait().then(()=>{
-//          console.log(t.getTime())
-//      })
-//  })
