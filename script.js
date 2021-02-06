@@ -2,47 +2,59 @@ import Timer from "./timer.js";
 import { MovingElement, Element } from "./element.js";
 
 let scoreDiv = document.querySelector(".score");
-let ballDiv = document.querySelector(".ball");
+let ballDivA = document.querySelector(".ball-a");
+let ballDivB = document.querySelector(".ball-b");
+
 let basketDiv = document.querySelector(".basket");
 
 let basket = new Element("basket", basketDiv);
 basket.positionElementOnScreen();
 
-let ballA = new MovingElement("ball", ballDiv, 2);
+let ballA = new MovingElement("ball-a", ballDivA, 2);
 ballA.positionElementOnScreen();
-createEvents(ballA);
+createEvents(ballA, ballDivA);
+
+let ballB = new MovingElement("ball-b", ballDivB, 4);
+createEvents(ballB, ballDivB);
 
 scoreDiv.innerText = 0;
 
 let score = 0;
 
+countToShowB();
+function countToShowB() {
+  setInterval(() => {
+    if (!ballDivB.style.display) {
+      ballB.positionElementOnScreen();
+    }
+  }, 1000);
+}
+
 function countToShow() {
   setTimeout(() => {
-    ballA.positionElementOnScreen()
+    ballA.positionElementOnScreen();
   }, 2000);
 }
 
-function toggleGreen(){
-    let counter = 0 
-    let interval = setInterval(() => {
-        counter++
-        basketDiv.classList.toggle("green")
-        if(counter === 6){
-            clearInterval(interval)
-        }
-    }, 150)
-    
-
+function toggleGreen() {
+  let counter = 0;
+  let interval = setInterval(() => {
+    counter++;
+    basketDiv.classList.toggle("green");
+    if (counter === 6) {
+      clearInterval(interval);
+    }
+  }, 150);
 }
 
-function handleMove(e,ball) {
+function handleMove(e, ball, ballDiv) {
   if (ball.move) {
     let { top, left } = ball.updateElementLocation(e);
     console.log(left, top);
     if (ball.checkCollision(top, left)) {
-        console.log("colission")
+      console.log("colission");
       ball.move1 = false;
-        toggleGreen()
+      toggleGreen();
       ballDiv.style.display = "none";
       score += ball.points;
       scoreDiv.innerText = score;
@@ -50,11 +62,11 @@ function handleMove(e,ball) {
     }
   }
 }
-function createEvents(ball) {
+function createEvents(ball, ballDiv) {
   ballDiv.addEventListener("mousedown", () => {
     ball.move1 = true;
   });
-  document.addEventListener("mousemove", (e)=>handleMove(e,ball));
+  document.addEventListener("mousemove", (e) => handleMove(e, ball, ballDiv));
   ballDiv.addEventListener("mouseup", () => {
     ball.move1 = false;
   });
