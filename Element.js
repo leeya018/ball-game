@@ -4,6 +4,14 @@ export class Element {
   constructor(className) {
     this.className = className;
   }
+  
+  getTopNumber(element){
+    return parseInt(element.style.top.replace("px", ""));
+  }
+  getLeftNumber(element){
+    return parseInt(element.style.left.replace("px", ""));
+  }
+
   createElement() {
     console.log("create element parent ");
     let elementDiv = document.createElement("div");
@@ -34,9 +42,9 @@ export class MovingElement extends Element {
 
   checkCollision(myTop, myLeft) {
     let basketElement = document.querySelector(".basket");
-    let top = parseInt(basketElement.style.top.replace("px", ""));
+    let top = this.getTopNumber(basketElement)
     let bottom = top + ELEMENT_SIZE;
-    let left = parseInt(basketElement.style.left.replace("px", ""));
+    let left = this.getLeftNumber(basketElement)
     let right = left + ELEMENT_SIZE;
     console.log(top, bottom, left, right);
 
@@ -44,32 +52,32 @@ export class MovingElement extends Element {
     let myBottom = myTop + ELEMENT_SIZE;
     console.log(myTop, myBottom, myLeft, myRight);
 
-    if (myTop >= top && myTop <= bottom && myLeft <= right && myLeft >= left) {
-      alert("colission");
+    if (myTop > top && myTop < bottom && myLeft < right && myLeft > left) {
+      return true
     }
     if (
-      myTop >= top &&
-      myTop <= bottom &&
-      myRight <= right &&
-      myRight >= left
+      myTop > top &&
+      myTop < bottom &&
+      myRight < right &&
+      myRight > left
     ) {
-      alert("colission");
+      return true
     }
     if (
-      myBottom >= top &&
-      myBottom <= bottom &&
-      myRight <= right &&
-      myRight >= left
+      myBottom > top &&
+      myBottom < bottom &&
+      myRight < right &&
+      myRight > left
     ) {
-      alert("colission");
+      return true
     }
     if (
-      myBottom >= top &&
-      myBottom <= bottom &&
-      myLeft <= right &&
-      myLeft >= left
+      myBottom > top &&
+      myBottom < bottom &&
+      myLeft < right &&
+      myLeft > left
     ) {
-      alert("colission");
+      return true
     }
   }
   createElement() {
@@ -102,11 +110,21 @@ export class MovingElement extends Element {
       this.move = false;
     });
   }
+
   updateElementLocation(e) {
     if (this.move) {
       let elementDiv = document.querySelector(`.${this.className}`);
-      elementDiv.style.top = e.clientY + "px";
-      elementDiv.style.left = e.clientX + "px";
+      elementDiv.style.top = e.clientY -ELEMENT_SIZE/2 + "px";
+      elementDiv.style.left = e.clientX -ELEMENT_SIZE/2 + "px";
+
+      let element  = document.querySelector(`.${this.className}`)
+      let top = this.getTopNumber(element)
+      let left = this.getLeftNumber(element)
+      if(this.checkCollision(top,left)){
+        let basket = document.querySelector(`.basket`);
+        basket.style.backgroundColor = "green"
+        element.remove()
+      }
     }
   }
 }
