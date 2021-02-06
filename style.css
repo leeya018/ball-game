@@ -20,6 +20,7 @@ body{
     position: absolute;
     width: 100px;
     height: 100px;
+    display: none;
 }
 .ball{
     background-color: red;
@@ -34,4 +35,7 @@ body{
     width:100px;
     height: 100px;
     border: 1px solid black;
+}
+.green {
+    background-color: green;
 }

@@ -1,32 +1,32 @@
 const ELEMENT_SIZE = 100;
 
 export class Element {
-  constructor(className) {
+  constructor(className,element) {
     this.className = className;
+    this.element = element
   }
   
   getTopNumber(element){
-    return parseInt(element.style.top.replace("px", "")) 
+    let el = element || this.element
+    return parseInt(el.style.top.replace("px", "")) 
   }
   getLeftNumber(element){
-    return parseInt(element.style.left.replace("px", ""));
+    let el = element || this.element
+    return parseInt(el.style.left.replace("px", ""));
   }
 
-  createElement() {
-    console.log("create element parent ");
-    let elementDiv = document.createElement("div");
-    elementDiv.classList.add(this.className);
-
+  positionElementOnScreen() {
     let heightLim = document.body.clientHeight;
     let widthLim = document.body.clientWidth;
 
     let top = this.chooseRandomLocation(heightLim) + "px";
     let left = this.chooseRandomLocation(widthLim) + "px";
 
-    elementDiv.style.top = top;
-    elementDiv.style.left = left;
+    this.element.style.top = top;
+    this.element.style.left = left;
+    this.element.style.display = "block"
 
-    return elementDiv;
+
   }
   chooseRandomLocation(sizeLimit) {
     let position = Math.floor(Math.random() * sizeLimit) - ELEMENT_SIZE;
@@ -34,8 +34,8 @@ export class Element {
   }
 }
 export class MovingElement extends Element {
-  constructor(className, points) {
-    super(className);
+  constructor(className, element,points,) {
+    super(className,element);
     this.move = false;
     this.points = points;
   }
@@ -84,35 +84,31 @@ export class MovingElement extends Element {
       return true
     }
   }
-  createElement() {
-    let elementDiv = document.createElement("div");
-    elementDiv.classList.add(this.className);
-
+  positionElementOnScreen() {
     let heightLim = document.body.clientHeight;
     let widthLim = document.body.clientWidth;
     let top, left;
-
+    
     do {
       top = this.chooseRandomLocation(heightLim);
       left = this.chooseRandomLocation(widthLim);
     } while (this.checkCollision(top, left));
-
-    elementDiv.style.top = top + "px";
-    elementDiv.style.left = left + "px";
-
-    return elementDiv;
+    
+    this.element.style.top = top + "px";
+    this.element.style.left = left + "px";
+    this.element.style.display = "block"
+    
   }
 
   
 
   updateElementLocation(e) {
     if (this.move) {
-      let elementDiv = document.querySelector(`.${this.className}`);
-      elementDiv.style.top = e.clientY -ELEMENT_SIZE/2 + "px";
-      elementDiv.style.left = e.clientX -ELEMENT_SIZE/2 + "px";
+      this.element.style.top = e.clientY -ELEMENT_SIZE/2 + "px";
+      this.element.style.left = e.clientX -ELEMENT_SIZE/2 + "px";
 
-      let top = this.getTopNumber(elementDiv)
-      let left = this.getLeftNumber(elementDiv)
+      let top = this.getTopNumber()
+      let left = this.getLeftNumber()
       return {top,left}
     }
     return null

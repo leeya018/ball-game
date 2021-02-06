@@ -1,34 +1,61 @@
 import Timer from "./timer.js";
 import { MovingElement, Element } from "./element.js";
 
-let scoreDiv = document.querySelector(".score")
-scoreDiv.innerText = 0
+let scoreDiv = document.querySelector(".score");
+let ballDiv = document.querySelector(".ball");
+let basketDiv = document.querySelector(".basket");
+
+let basket = new Element("basket", basketDiv);
+basket.positionElementOnScreen();
+
+let ballA = new MovingElement("ball", ballDiv, 2);
+ballA.positionElementOnScreen();
+createEvents(ballA);
+
+scoreDiv.innerText = 0;
 
 let score = 0;
 
-function handleMove(element, ball,e) {
-   
+function countToShow() {
+  setTimeout(() => {
+    ballA.positionElementOnScreen()
+  }, 2000);
+}
+
+function toggleGreen(){
+    let counter = 0 
+    let interval = setInterval(() => {
+        counter++
+        basketDiv.classList.toggle("green")
+        if(counter === 6){
+            clearInterval(interval)
+        }
+    }, 150)
+    
+
+}
+
+function handleMove(e,ball) {
   if (ball.move) {
-
     let { top, left } = ball.updateElementLocation(e);
-    console.log(left,top)
+    console.log(left, top);
     if (ball.checkCollision(top, left)) {
-        ball.move1 = false
-      let basket = document.querySelector(`.basket`);
-      basket.style.backgroundColor = "green";
-
-      element.style.display = "none"
-      score += ball.points
-      scoreDiv.innerText = score
+        console.log("colission")
+      ball.move1 = false;
+        toggleGreen()
+      ballDiv.style.display = "none";
+      score += ball.points;
+      scoreDiv.innerText = score;
+      countToShow();
     }
   }
 }
-function createEvents(element, ball) {
-  element.addEventListener("mousedown", () => {
+function createEvents(ball) {
+  ballDiv.addEventListener("mousedown", () => {
     ball.move1 = true;
   });
-  document.addEventListener("mousemove", (e)=>handleMove(element, ball,e));
-  element.addEventListener("mouseup", () => {
+  document.addEventListener("mousemove", (e)=>handleMove(e,ball));
+  ballDiv.addEventListener("mouseup", () => {
     ball.move1 = false;
   });
 }
@@ -36,14 +63,3 @@ function createEvents(element, ball) {
 // let timerSpan = timer.createHtml()
 // document.querySelector("body").append(timerSpan)
 // timer.start()
-
-let basket = new Element("basket");
-let basketElem = basket.createElement();
-document.querySelector("body").append(basketElem);
-
-let a = new MovingElement("ball", 2);
-let element = a.createElement();
-// a.createEvents(element);
-createEvents(element, a);
-document.querySelector("body").append(element);
-
