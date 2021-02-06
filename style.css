@@ -8,21 +8,7 @@ body{
     height: 100vh;
 }
 
-.item {
-    position: absolute;
-    width:100px;
-    height: 100px;
-}
 
-.ball{
-    top:100px;
-    left: 500px;
-    background-color: red;
-}
-
-.basket{
-    background-color: black;
-}
 .timer{
     position: absolute;
     left:50%;
@@ -30,9 +16,15 @@ body{
     width:100px;
     height: 30px;
 }
-.a,.b{
+.ball,.basket{
     position: absolute;
-    background-color:black;
     width: 100px;
     height: 100px;
+}
+.ball{
+    background-color: red;
+}
+
+.basket{
+    background-color: black;
 }
