@@ -1,3 +1,5 @@
+import {TimerEl} from "./timer.js"
+
 const ELEMENT_SIZE = 100;
 const FREEZE_TIME  = 4000
 let id = 0
@@ -6,7 +8,8 @@ export class Element {
   constructor(className) {
     this.className = className;
     this.element = null
-    this.id = ++id 
+    this.id = ++id
+    this.timer = new TimerEl() 
   }
   
   getTopNumber(element){
@@ -118,6 +121,7 @@ export class MovingElement extends Element {
     let xDiv = document.createElement("div")
     xDiv.classList.add("frozen")
     this.element.append(xDiv)
+    this.timer.start()
     setTimeout(() => {
       xDiv.classList.toggle("frozen")
       xDiv.remove()

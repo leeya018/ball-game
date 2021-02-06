@@ -1,5 +1,17 @@
+export  class TimerEl{
+    constructor(){
+        this.time = 0 
+    }   
+    start(){
+        setInterval(() => {
+            this.time += 1
+        }, 1000)
+        
+    }
+}
 
-export default class Timer{
+
+export class Timer{
     constructor(className,time,el){
         this.time = time
         this.className = className

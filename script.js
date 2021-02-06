@@ -1,4 +1,4 @@
-import Timer from "./timer.js";
+import { Timer } from "./timer.js";
 import { MovingElement, Element } from "./element.js";
 
 let scoreDiv = document.querySelector(".score");
@@ -18,6 +18,8 @@ const TIME_LIM_A = 8;
 const SECOND = 1000;
 const CLASS_A = "ball-a";
 const CLASS_B = "ball-b";
+const INTERVAL_TIME_FOR_DOING_NOTHING = 8000
+let oldScore = 0;
 
 startGame();
 function startGame() {
@@ -27,8 +29,21 @@ function startGame() {
   timer = new Timer("timer", 0, timerDiv);
   startTime(timer);
 
+  removeScoreForDoingNothing();
+
   intervalBall(CLASS_A);
   intervalBall(CLASS_B);
+}
+
+function removeScoreForDoingNothing() {
+  setInterval(() => {
+    if (oldScore === score) {
+      score = -1;
+      scoreDiv.innerText = score;
+    } else {
+      oldScore = score;
+    }
+  }, INTERVAL_TIME_FOR_DOING_NOTHING);
 }
 function intervalBall(className) {
   createBall(className);
@@ -40,7 +55,7 @@ function intervalBall(className) {
 }
 
 function createBall(className) {
-  let points = className === CLASS_A ? 2 : 4;
+  let points = className === CLASS_A ? 1 : 2;
   let ball = new MovingElement(className, points);
   ball.positionElementOnScreen();
   createEvents(ball);
@@ -86,10 +101,30 @@ function removeBallFromList(id) {
   console.log("length : " + balls.length);
 }
 
+function updatePoints(ball) {
+  // is ballA but there are balls b -4
+
+  if (ball.className === CLASS_A) {
+    let tempBalls = balls.filter((b) => ball.id !== b.id);
+    let findB = tempBalls.find((b) => b.className === CLASS_B);
+    if (findB) {
+      score -= 4;
+    } else {
+      score += 1;
+    }
+  } else {
+    //ball b 2
+    score += 2;
+  }
+  // every 8 sec drop -1
+  //ball a 1
+}
+
 function handleMove(e, ball) {
   if (ball.move) {
     let { top, left } = ball.updateElementLocation(e);
     if (ball.checkCollision(top, left)) {
+      updatePoints(ball);
       console.log("colission");
       ball.move1 = false;
       console.log(ball.move + " " + ball.className);
@@ -98,7 +133,6 @@ function handleMove(e, ball) {
       ball.element.remove();
       removeBallFromList(ball.id);
       console.log(balls);
-      score += ball.points;
       scoreDiv.innerText = score;
     }
   }
