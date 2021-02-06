@@ -50,11 +50,11 @@ export class MovingElement extends Element {
     let bottom = top + ELEMENT_SIZE;
     let left = this.getLeftNumber(basketElement)
     let right = left + ELEMENT_SIZE;
-    console.log(top, bottom, left, right);
+    // console.log(top, bottom, left, right);
 
     let myRight = myLeft + ELEMENT_SIZE;
     let myBottom = myTop + ELEMENT_SIZE;
-    console.log(myTop, myBottom, myLeft, myRight);
+    // console.log(myTop, myBottom, myLeft, myRight);
 
     if (myTop > top && myTop < bottom && myLeft < right && myLeft > left) {
       return true

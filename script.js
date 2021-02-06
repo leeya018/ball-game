@@ -24,15 +24,17 @@ let score = 0;
 countToShowB();
 function countToShowB() {
   setInterval(() => {
-    if (!ballDivB.style.display) {
+    if (ballDivB.style.display !== "block") {
       ballB.positionElementOnScreen();
     }
   }, 1000);
 }
 
-function countToShow() {
+function countToShow(ball) {
   setTimeout(() => {
-    ballA.positionElementOnScreen();
+      if(ball.className === "ball-a"){
+          ball.positionElementOnScreen();
+      }
   }, 2000);
 }
 
@@ -50,25 +52,29 @@ function toggleGreen() {
 function handleMove(e, ball, ballDiv) {
   if (ball.move) {
     let { top, left } = ball.updateElementLocation(e);
-    console.log(left, top);
+    // console.log(left, top);
     if (ball.checkCollision(top, left)) {
       console.log("colission");
       ball.move1 = false;
+      console.log(ball.move + " " + ball.className);
+
       toggleGreen();
       ballDiv.style.display = "none";
       score += ball.points;
       scoreDiv.innerText = score;
-      countToShow();
+      countToShow(ball);
     }
   }
 }
 function createEvents(ball, ballDiv) {
   ballDiv.addEventListener("mousedown", () => {
     ball.move1 = true;
+    console.log(ball.move + " " + ball.className);
   });
   document.addEventListener("mousemove", (e) => handleMove(e, ball, ballDiv));
   ballDiv.addEventListener("mouseup", () => {
     ball.move1 = false;
+    console.log(ball.move + " " + ball.className);
   });
 }
 // let timer = new Timer("timer",0)
