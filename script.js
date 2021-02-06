@@ -66,7 +66,8 @@ function createBall(className) {
 }
 
 function startTime() {
-  let interval = setInterval(() => {
+    timerDiv.innerText = timer.formatTimerTxt();
+    let interval = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
       if (score >= SCORE_TO_BIT) {
         confirm("you won");
@@ -140,6 +141,7 @@ function handleMove(e, ball) {
 function createEvents(ball) {
   ball.element.addEventListener("mousedown", () => {
     if (!ball.frozen) {
+       
       ball.move1 = true;
     }
     console.log(ball.move + " " + ball.className);
