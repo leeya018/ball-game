@@ -1,9 +1,10 @@
 const ELEMENT_SIZE = 100;
-
+let id = 0
 export class Element {
-  constructor(className,element) {
+  constructor(className) {
     this.className = className;
-    this.element = element
+    this.element = null
+    this.id = ++id 
   }
   
   getTopNumber(element){
@@ -16,6 +17,9 @@ export class Element {
   }
 
   positionElementOnScreen() {
+    this.element = document.createElement("div")
+    this.element.classList.add("basket")
+
     let heightLim = document.body.clientHeight;
     let widthLim = document.body.clientWidth;
 
@@ -25,6 +29,8 @@ export class Element {
     this.element.style.top = top;
     this.element.style.left = left;
     this.element.style.display = "block"
+    
+    document.body.append(this.element)
 
 
   }
@@ -34,8 +40,8 @@ export class Element {
   }
 }
 export class MovingElement extends Element {
-  constructor(className, element,points,) {
-    super(className,element);
+  constructor(className,points) {
+    super(className);
     this.move = false;
     this.points = points;
   }
@@ -85,6 +91,8 @@ export class MovingElement extends Element {
     }
   }
   positionElementOnScreen() {
+    this.element = document.createElement("div")
+    this.element.classList.add("ball",this.className)
     let heightLim = document.body.clientHeight;
     let widthLim = document.body.clientWidth;
     let top, left;
@@ -97,6 +105,8 @@ export class MovingElement extends Element {
     this.element.style.top = top + "px";
     this.element.style.left = left + "px";
     this.element.style.display = "block"
+
+    document.body.append(this.element)
     
   }
 
@@ -106,7 +116,7 @@ export class MovingElement extends Element {
     if (this.move) {
       this.element.style.top = e.clientY -ELEMENT_SIZE/2 + "px";
       this.element.style.left = e.clientX -ELEMENT_SIZE/2 + "px";
-
+      
       let top = this.getTopNumber()
       let left = this.getLeftNumber()
       return {top,left}
