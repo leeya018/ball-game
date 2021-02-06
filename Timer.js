@@ -7,7 +7,7 @@ export class Timer {
   }
   start(div) {
     div.innerText = this.formatTimerTxt();
-    setInterval(() => {
+    this.interval = setInterval(() => {
       this.time += 1;
       div.innerText = this.formatTimerTxt();
     }, 1000);

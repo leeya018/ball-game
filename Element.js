@@ -9,7 +9,6 @@ export class Element {
     this.className = className;
     this.element = null;
     this.id = ++id;
-    
   }
 
   getTopNumber(element) {
@@ -114,7 +113,6 @@ export class MovingElement extends Element {
     let xDiv = document.createElement("div");
     xDiv.classList.add("frozen");
     this.element.append(xDiv);
-    // this.timer.start();
 
     setTimeout(() => {
       xDiv.classList.toggle("frozen");
@@ -122,7 +120,7 @@ export class MovingElement extends Element {
       this.frozen = false;
       let timerDiv = this.timer.getHtml();
       this.element.append(timerDiv);
-      this.timer.start(timerDiv)
+      this.timer.start(timerDiv);
     }, FREEZE_TIME);
   }
 

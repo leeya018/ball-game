@@ -3,6 +3,9 @@ import { MovingElement, Element } from "./element.js";
 
 let scoreDiv = document.querySelector(".score");
 let timerDiv = document.querySelector(".timer");
+let pauseBtn = document.querySelector(".pauseBtn");
+let intervalBall, intervalBigTimer,intervalDoingNothing,ballIntervals =[]
+let gameOn = false
 
 let basket,
   timer,
@@ -23,20 +26,52 @@ let oldScore = 0;
 
 startGame();
 function startGame() {
+    gameOn = true
   basket = new Element("basket");
   basket.positionElementOnScreen();
 
   timer = new Timer("timer", 0, timerDiv);
-  startTime(timer);
+  startTime();
 
   removeScoreForDoingNothing();
 
-  intervalBall(CLASS_A);
-  intervalBall(CLASS_B);
+  ballRotation(CLASS_A);
+  ballRotation(CLASS_B);
+}
+
+pauseBtn.addEventListener("click",pauseResumeGame)
+
+function pauseGame(){
+    gameOn = !gameOn
+    pauseBtn.innerText = gameOn?"Pause":"Start"
+    clearInterval(intervalBigTimer)
+    clearInterval(intervalDoingNothing)
+    for (const intervalItem of ballIntervals) {
+        clearInterval(intervalItem)
+    }
+    ballIntervals = []
+    for (const ball of balls) {
+        ball.timer.stop()
+    }
+}
+function resumeGame(){
+    gameOn = !gameOn
+    pauseBtn.innerText = gameOn?"Pause":"Start"
+    startTime()
+    
+}
+function pauseResumeGame(){
+    if(gameOn){
+        pauseGame()
+    }else{
+        resumeGame()
+    }
+ 
+    
 }
 
 function removeScoreForDoingNothing() {
-  setInterval(() => {
+   intervalDoingNothing = setInterval(() => {
     if (oldScore === score) {
       score = -1;
       scoreDiv.innerText = score;
@@ -45,13 +80,15 @@ function removeScoreForDoingNothing() {
     }
   }, INTERVAL_TIME_FOR_DOING_NOTHING);
 }
-function intervalBall(className) {
+function ballRotation(className) {
   createBall(className);
-  let intervalTime = className === CLASS_A ? TIME_LIM_A : getRandomNum();
-  setInterval(() => {
+  let rotationTime = className === CLASS_A ? TIME_LIM_A : getRandomNum();
+  intervalBall = setInterval(() => {
     createBall(className);
     console.log(balls);
-  }, intervalTime * SECOND);
+  }, rotationTime * SECOND);
+
+  ballIntervals.push(intervalBall)
 }
 
 function createBall(className) {
@@ -67,14 +104,14 @@ function createBall(className) {
 
 function startTime() {
   timerDiv.innerText = timer.formatTimerTxt();
-  let interval = setInterval(() => {
+  intervalBigTimer = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
       if (score >= SCORE_TO_BIT) {
         confirm("you won");
       } else {
         confirm("you lose");
       }
-      clearInterval(interval);
+      clearInterval(intervalBigTimer);
     }
     timer.time += 1;
     timerDiv.innerText = timer.formatTimerTxt();
@@ -103,8 +140,6 @@ function removeBallFromList(id) {
 }
 
 function updatePoints(ball) {
-  // is ballA but there are balls b -4
-
   if (ball.className === CLASS_A) {
     let tempBalls = balls.filter((b) => ball.id !== b.id);
     let findB = tempBalls.find((b) => b.className === CLASS_B);
@@ -118,11 +153,8 @@ function updatePoints(ball) {
       }
     }
   } else {
-    //ball b 2
     score += 2;
   }
-  // every 8 sec drop -1
-  //ball a 1
 }
 
 function handleMove(e, ball) {
