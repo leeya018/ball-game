@@ -18,7 +18,7 @@ const TIME_LIM_A = 8;
 const SECOND = 1000;
 const CLASS_A = "ball-a";
 const CLASS_B = "ball-b";
-const INTERVAL_TIME_FOR_DOING_NOTHING = 8000
+const INTERVAL_TIME_FOR_DOING_NOTHING = 8000;
 let oldScore = 0;
 
 startGame();
@@ -66,8 +66,8 @@ function createBall(className) {
 }
 
 function startTime() {
-    timerDiv.innerText = timer.formatTimerTxt();
-    let interval = setInterval(() => {
+  timerDiv.innerText = timer.formatTimerTxt();
+  let interval = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
       if (score >= SCORE_TO_BIT) {
         confirm("you won");
@@ -111,7 +111,11 @@ function updatePoints(ball) {
     if (findB) {
       score -= 4;
     } else {
-      score += 1;
+      if (ball.timer.time <= 4) {
+        score += 1;
+      } else {
+        score -= 1;
+      }
     }
   } else {
     //ball b 2
@@ -141,7 +145,6 @@ function handleMove(e, ball) {
 function createEvents(ball) {
   ball.element.addEventListener("mousedown", () => {
     if (!ball.frozen) {
-       
       ball.move1 = true;
     }
     console.log(ball.move + " " + ball.className);
