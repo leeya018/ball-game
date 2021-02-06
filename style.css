@@ -2,13 +2,19 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  
 }
 
 body {
+  overflow: hidden;
   user-select: none;
   margin: 0;
   width: 100vw;
   height: 100vh;
+  background: url("./images/beach.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 
 .timer {
@@ -22,8 +28,8 @@ body {
 
 .section{
     position: absolute;
-    top:0;
-    width:200px;
+    top:.5em;
+    width:210px;
     font-size:2rem;
     display: flex;
     align-items: center;
@@ -32,11 +38,12 @@ body {
 }
 
 .time-section{
-    left: 0;
+    left: 1em;
 
 }
 .score-section{
     right: 50%;
+    width:180px;
 }
 .ball,
 .basket {
@@ -49,16 +56,23 @@ body {
   cursor: pointer;
 }
 
-.basket {
-  background-color: black;
+.basket{
+    background:url("./images/target.svg");
 }
 
 .ball-a {
-  background-color: red;
+    background:url("./images/ballA.png");
 }
 
 .ball-b {
-  background-color: purple;
+    background:url("./images/ballB.png");
+}
+.ball-a,
+.ball-b,
+.basket{
+    
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .green {
   background-color: green;
@@ -68,13 +82,11 @@ body {
   background: url("./images/x.png");
   background-repeat: no-repeat;
   background-size: contain;
-  width: 50%;
-  height: 50%;
-  top: 25%;
-  left: 25%;
+  width: 100%;
+  height: 100%;
 }
 .timer-el {
-position: absolute;
+  position: absolute;
+  font-size: 1.5rem;
   left: 100%;
-  border: 1px solid black;
 }
