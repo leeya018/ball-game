@@ -16,9 +16,8 @@ const TIME_LIM1 = 20;
 const TIME_LIM2 = 30;
 const TIME_LIM_A = 8;
 const SECOND = 1000;
-const CLASS_A = "ball-a"
-const CLASS_B = "ball-b"
-
+const CLASS_A = "ball-a";
+const CLASS_B = "ball-b";
 
 startGame();
 function startGame() {
@@ -45,9 +44,11 @@ function createBall(className) {
   let ball = new MovingElement(className, points);
   ball.positionElementOnScreen();
   createEvents(ball);
+  if (className === CLASS_A) {
+    ball.freeze();
+  }
   balls.push(ball);
 }
-
 
 function startTime() {
   let interval = setInterval(() => {
@@ -104,7 +105,9 @@ function handleMove(e, ball) {
 }
 function createEvents(ball) {
   ball.element.addEventListener("mousedown", () => {
-    ball.move1 = true;
+    if (!ball.frozen) {
+      ball.move1 = true;
+    }
     console.log(ball.move + " " + ball.className);
   });
   document.addEventListener("mousemove", (e) => handleMove(e, ball));

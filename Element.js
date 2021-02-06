@@ -1,5 +1,7 @@
 const ELEMENT_SIZE = 100;
+const FREEZE_TIME  = 4000
 let id = 0
+
 export class Element {
   constructor(className) {
     this.className = className;
@@ -44,6 +46,7 @@ export class MovingElement extends Element {
     super(className);
     this.move = false;
     this.points = points;
+    this.frozen = false
   }
 
   set move1(isMove){
@@ -110,7 +113,18 @@ export class MovingElement extends Element {
     
   }
 
-  
+  freeze(){
+    this.frozen = true
+    let xDiv = document.createElement("div")
+    xDiv.classList.add("frozen")
+    this.element.append(xDiv)
+    setTimeout(() => {
+      xDiv.classList.toggle("frozen")
+      xDiv.remove()
+      this.frozen = false      
+    }, FREEZE_TIME)
+    
+  }  
 
   updateElementLocation(e) {
     if (this.move) {
