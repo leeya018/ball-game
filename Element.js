@@ -6,7 +6,7 @@ export class Element {
   }
   
   getTopNumber(element){
-    return parseInt(element.style.top.replace("px", ""));
+    return parseInt(element.style.top.replace("px", "")) 
   }
   getLeftNumber(element){
     return parseInt(element.style.left.replace("px", ""));
@@ -38,6 +38,10 @@ export class MovingElement extends Element {
     super(className);
     this.move = false;
     this.points = points;
+  }
+
+  set move1(isMove){
+    this.move = isMove
   }
 
   checkCollision(myTop, myLeft) {
@@ -99,17 +103,7 @@ export class MovingElement extends Element {
     return elementDiv;
   }
 
-  createEvents(element) {
-    let updateElementLocation = this.updateElementLocation.bind(this);
-
-    element.addEventListener("mousedown", () => {
-      this.move = true;
-    });
-    document.addEventListener("mousemove", updateElementLocation);
-    element.addEventListener("mouseup", () => {
-      this.move = false;
-    });
-  }
+  
 
   updateElementLocation(e) {
     if (this.move) {
@@ -117,14 +111,10 @@ export class MovingElement extends Element {
       elementDiv.style.top = e.clientY -ELEMENT_SIZE/2 + "px";
       elementDiv.style.left = e.clientX -ELEMENT_SIZE/2 + "px";
 
-      let element  = document.querySelector(`.${this.className}`)
-      let top = this.getTopNumber(element)
-      let left = this.getLeftNumber(element)
-      if(this.checkCollision(top,left)){
-        let basket = document.querySelector(`.basket`);
-        basket.style.backgroundColor = "green"
-        element.remove()
-      }
+      let top = this.getTopNumber(elementDiv)
+      let left = this.getLeftNumber(elementDiv)
+      return {top,left}
     }
+    return null
   }
 }

@@ -28,3 +28,10 @@ body{
 .basket{
     background-color: black;
 }
+.score{
+    position: absolute;
+    left:50%;
+    width:100px;
+    height: 100px;
+    border: 1px solid black;
+}
