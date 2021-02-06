@@ -4,24 +4,61 @@ import { MovingElement, Element } from "./element.js";
 let scoreDiv = document.querySelector(".score");
 let ballDivA = document.querySelector(".ball-a");
 let ballDivB = document.querySelector(".ball-b");
-
+let timerDiv = document.querySelector(".timer");
 let basketDiv = document.querySelector(".basket");
 
-let basket = new Element("basket", basketDiv);
-basket.positionElementOnScreen();
-
-let ballA = new MovingElement("ball-a", ballDivA, 2);
-ballA.positionElementOnScreen();
-createEvents(ballA, ballDivA);
-
-let ballB = new MovingElement("ball-b", ballDivB, 4);
-createEvents(ballB, ballDivB);
-
-scoreDiv.innerText = 0;
+let basket, ballA, ballB, timer;
 
 let score = 0;
+scoreDiv.innerText = 0;
 
-countToShowB();
+const TOTAL_TIME = 3 * 60;
+const SCORE_TO_BIT = 10;
+
+startGame();
+function startGame() {
+  basket = new Element("basket", basketDiv);
+  basket.positionElementOnScreen();
+
+  ballA = new MovingElement("ball-a", ballDivA, 2);
+  ballA.positionElementOnScreen();
+  createEvents(ballA, ballDivA);
+
+  ballB = new MovingElement("ball-b", ballDivB, 4);
+  createEvents(ballB, ballDivB);
+
+  timer = new Timer("timer", 0, timerDiv);
+  startTime(timer);
+  
+  countToShowB();
+}
+function resetGame() {
+    timer = null 
+    ballA = null
+    ballB = null
+    basket = null
+    points = 0 
+}
+
+function startTime() {
+  let interval = setInterval(() => {
+    if (timer.time === TOTAL_TIME) {
+      if (score >= SCORE_TO_BIT) {
+        confirm("you won");
+      } else {
+        confirm("you lose");
+      }
+      clearInterval(interval);
+    //   resetGame();
+    //   startGame()
+    }
+    timer.time += 1;
+    timerDiv.innerText = timer.formatTimerTxt();
+    console.log(timer.time);
+  }, 1000);
+}
+
+
 function countToShowB() {
   setInterval(() => {
     if (ballDivB.style.display !== "block") {
@@ -32,9 +69,9 @@ function countToShowB() {
 
 function countToShow(ball) {
   setTimeout(() => {
-      if(ball.className === "ball-a"){
-          ball.positionElementOnScreen();
-      }
+    if (ball.className === "ball-a") {
+      ball.positionElementOnScreen();
+    }
   }, 2000);
 }
 
@@ -77,7 +114,3 @@ function createEvents(ball, ballDiv) {
     console.log(ball.move + " " + ball.className);
   });
 }
-// let timer = new Timer("timer",0)
-// let timerSpan = timer.createHtml()
-// document.querySelector("body").append(timerSpan)
-// timer.start()

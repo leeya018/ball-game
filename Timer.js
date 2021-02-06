@@ -1,15 +1,16 @@
 
 export default class Timer{
-    constructor(className,time){
+    constructor(className,time,el){
         this.time = time
         this.className = className
         this.interval = null
+        this.el = el
         
     }
-    start(){
-        let updateTime = this.updateTime.bind(this)
-        this.interval = setInterval(updateTime,1000)
+    reset(){
+        this.time = 0 
     }
+    
     formatTimerTxt(){
         let minutes = Math.floor(this.time / 60);
         let seconds = this.time % 60;
@@ -19,26 +20,15 @@ export default class Timer{
     }
     updateTime(){
         this.time  += 1 
-        let timeSpan = this.getHtml()
+        let timeSpan = this.el
         timeSpan.innerText = this.formatTimerTxt()
         console.log(this.time)
     }
     stop(){
         clearInterval(this.interval) 
     }
-    getHtml(){
-        return document.querySelector(`.${this.className}`)
-    }
-    createHtml(){
-        let timerSpan = document.createElement("span")
-        timerSpan.classList.add(this.className)
-        timerSpan.innerText = this.formatTimerTxt()
-        return timerSpan
-
-    }
     
     removeHtml(){
-        let timerSpan = document.querySelector(`.${this.className}`)
-        timerSpan.remove()
+        this.el.remove()
     }
 }
