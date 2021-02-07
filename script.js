@@ -58,7 +58,8 @@ pauseBtn.addEventListener("click",pauseResumeGame)
 function pauseGame(){
     gameOn = !gameOn
     pauseBtn.innerText = gameOn?"Pause":"Start"
-    clearInterval(checkWinInterval)
+    timer.stop()
+    // clearInterval(checkWinInterval)
     clearInterval(intervalDoingNothing)
     for (const intervalItem of ballIntervals) {
         clearInterval(intervalItem)
