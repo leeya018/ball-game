@@ -4,7 +4,7 @@ import { MovingElement, Element } from "./element.js";
 let scoreDiv = document.querySelector(".score");
 let timerDiv = document.querySelector(".timer");
 let pauseBtn = document.querySelector(".pauseBtn");
-let intervalBall, intervalBigTimer,intervalDoingNothing,ballIntervals =[]
+let intervalBall, checkWinInterval,intervalDoingNothing,ballIntervals =[]
 let gameOn = false
 
 let basket,
@@ -26,17 +26,31 @@ let oldScore = 0;
 
 startGame();
 function startGame() {
-    gameOn = true
+  gameOn = true
   basket = new Element("basket");
   basket.positionElementOnScreen();
 
   timer = new Timer("timer", 0, timerDiv);
-  startTime();
+  timer.start(timerDiv)
+  
 
   removeScoreForDoingNothing();
-
+  checkWin()
   ballRotation(CLASS_A);
   ballRotation(CLASS_B);
+}
+
+function checkWin(){
+  checkWinInterval = setInterval(() => {
+    if (timer.time === TOTAL_TIME) {
+      if (score >= SCORE_TO_BIT) {
+        confirm("you won");
+      } else {
+        confirm("you lose");
+      }
+      clearInterval(checkWinInterval);
+    }
+})
 }
 
 pauseBtn.addEventListener("click",pauseResumeGame)
@@ -44,7 +58,7 @@ pauseBtn.addEventListener("click",pauseResumeGame)
 function pauseGame(){
     gameOn = !gameOn
     pauseBtn.innerText = gameOn?"Pause":"Start"
-    clearInterval(intervalBigTimer)
+    clearInterval(checkWinInterval)
     clearInterval(intervalDoingNothing)
     for (const intervalItem of ballIntervals) {
         clearInterval(intervalItem)
@@ -57,7 +71,7 @@ function pauseGame(){
 function resumeGame(){
     gameOn = !gameOn
     pauseBtn.innerText = gameOn?"Pause":"Start"
-    startTime()
+    timer.start(timerDiv)
     
 }
 function pauseResumeGame(){
@@ -73,7 +87,7 @@ function pauseResumeGame(){
 function removeScoreForDoingNothing() {
    intervalDoingNothing = setInterval(() => {
     if (oldScore === score) {
-      score = -1;
+      score -= 1;
       scoreDiv.innerText = score;
     } else {
       oldScore = score;
@@ -102,21 +116,21 @@ function createBall(className) {
   balls.push(ball);
 }
 
-function startTime() {
-  timerDiv.innerText = timer.formatTimerTxt();
-  intervalBigTimer = setInterval(() => {
-    if (timer.time === TOTAL_TIME) {
-      if (score >= SCORE_TO_BIT) {
-        confirm("you won");
-      } else {
-        confirm("you lose");
-      }
-      clearInterval(intervalBigTimer);
-    }
-    timer.time += 1;
-    timerDiv.innerText = timer.formatTimerTxt();
-  }, SECOND);
-}
+// function startTime() {
+//   timerDiv.innerText = timer.formatTimerTxt();
+//   checkWinInterval = setInterval(() => {
+//     if (timer.time === TOTAL_TIME) {
+//       if (score >= SCORE_TO_BIT) {
+//         confirm("you won");
+//       } else {
+//         confirm("you lose");
+//       }
+//       clearInterval(checkWinInterval);
+//     }
+//     timer.time += 1;
+//     timerDiv.innerText = timer.formatTimerTxt();
+//   }, SECOND);
+// }
 
 function getRandomNum() {
   return Math.floor(TIME_LIM1 + Math.random() * (TIME_LIM2 - TIME_LIM1));

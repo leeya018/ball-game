@@ -5,11 +5,13 @@ export class Timer {
     this.interval = null;
     this.el = el;
   }
+  
   start(div) {
     div.innerText = this.formatTimerTxt();
     this.interval = setInterval(() => {
       this.time += 1;
       div.innerText = this.formatTimerTxt();
+  
     }, 1000);
   }
   getHtml() {

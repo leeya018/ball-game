@@ -89,6 +89,24 @@ export class MovingElement extends Element {
       return true;
     }
   }
+
+  // positionElementOnScreen() {
+  //   this.element = document.createElement("div");
+  //   this.element.classList.add("basket");
+
+  //   let heightLim = document.body.clientHeight;
+  //   let widthLim = document.body.clientWidth;
+
+  //   let top = this.chooseRandomLocation(heightLim) + "px";
+  //   let left = this.chooseRandomLocation(widthLim) + "px";
+
+  //   this.element.style.top = top;
+  //   this.element.style.left = left;
+  //   this.element.style.display = "block";
+
+  //   document.body.append(this.element);
+
+  // }
   positionElementOnScreen() {
     this.element = document.createElement("div");
     this.element.classList.add("ball", this.className);
