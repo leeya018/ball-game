@@ -8,15 +8,38 @@
     <script src="script.js" type="module"></script>
 </head>
 <body>
-   <div class="section time-section">
-    <span>your time :</span>   
-      <div class="timer"></div>
+    <div class="instructions">
+        <div class="content">
+            <div class="instructions-info">
+                <h1>Instructions</h1>
+                <p>in this game the winner is the one who gain 10 or more points in 3 minutes</p>
+                <p>you gain points by dragging balls to the target</p>
+                <p>how is the score rules:</p>
+                <p>beach ball is 2 points </p>
+                <p>basket ball is 1 point</p>
+                <p>each basket ball have a timer of 4 seconds to be frozen on the screen <br>
+                and then 4 seconds to be drag to the target , <br>
+            if you put the ball to target in less then 4 seconds , you gain 1 point ,
+        <br>but if not , you are loosing 1 point</p>
+        <p>if you are dragging basketball to the target while there is a ball beach on the screen , you will lose 4 points</p>
+        <p>each 8 seconds that you will not drag any ball to the target , you will lose 1 points </p>
+        <p>PAY ATTENTION: you can get a negative score </p>
+                
+            </div>
+            <button class="start-game-btn">start game</button>
+        </div>
     </div>
-    <div class="section score-section">
-        <span>your score :</span>
-        <div class="score"></div>
+    <div class="nav">
+        <div class="section time-section">
+            <span>your time :</span>   
+            <div class="timer">0:00</div>
+        </div>
+        <div class="section score-section">
+            <span>your score :</span>
+            <div class="score">0</div>
+        </div>
+        <button class="pauseBtn">Pause</button>
     </div>
-    <button class="pauseBtn">Pause</button>
 
 
 </body>

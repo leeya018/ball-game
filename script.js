@@ -8,13 +8,12 @@ export class Timer {
     this.interval = null;
     this.el = el;
   }
-  
+
   start(div) {
     div.innerText = this.formatTimerTxt();
     this.interval = setInterval(() => {
       this.time += 1;
       div.innerText = this.formatTimerTxt();
-  
     }, 1000);
   }
   getHtml() {
@@ -43,10 +42,7 @@ export class Timer {
   }
 }
 
-
-
-
-const ELEMENT_SIZE = 100;
+const ELEMENT_SIZE = 70;
 const FREEZE_TIME = 4000;
 let id = 0;
 
@@ -201,12 +197,17 @@ export class MovingElement extends Element {
   }
 }
 
-
 let scoreDiv = document.querySelector(".score");
 let timerDiv = document.querySelector(".timer");
 let pauseBtn = document.querySelector(".pauseBtn");
-let intervalBall, checkWinInterval,intervalDoingNothing,ballIntervals =[]
-let gameOn = false
+let startGameBtn = document.querySelector(".start-game-btn");
+let instructions = document.querySelector(".instructions");
+
+let intervalBall,
+  checkWinInterval,
+  intervalDoingNothing,
+  ballIntervals = [];
+let gameOn = false;
 
 let basket,
   timer,
@@ -225,23 +226,26 @@ const CLASS_B = "ball-b";
 const INTERVAL_TIME_FOR_DOING_NOTHING = 8000;
 let oldScore = 0;
 
-startGame();
+// instructions.children[0].children[0].innerText =""
+
+startGameBtn.addEventListener("click", startGame);
+
 function startGame() {
-  gameOn = true
+  instructions.classList.toggle("visible");
+  gameOn = true;
   basket = new Element("basket");
   basket.positionElementOnScreen();
 
   timer = new Timer("timer", 0, timerDiv);
-  timer.start(timerDiv)
-  
+  timer.start(timerDiv);
 
   removeScoreForDoingNothing();
-  checkWin()
+  checkWin();
   ballRotation(CLASS_A);
   ballRotation(CLASS_B);
 }
 
-function checkWin(){
+function checkWin() {
   checkWinInterval = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
       if (score >= SCORE_TO_BIT) {
@@ -251,43 +255,40 @@ function checkWin(){
       }
       clearInterval(checkWinInterval);
     }
-})
+  });
 }
 
-pauseBtn.addEventListener("click",pauseResumeGame)
+pauseBtn.addEventListener("click", pauseResumeGame);
 
-function pauseGame(){
-    gameOn = !gameOn
-    pauseBtn.innerText = gameOn?"Pause":"Start"
-    timer.stop()
-    // clearInterval(checkWinInterval)
-    clearInterval(intervalDoingNothing)
-    for (const intervalItem of ballIntervals) {
-        clearInterval(intervalItem)
-    }
-    ballIntervals = []
-    for (const ball of balls) {
-        ball.timer.stop()
-    }
+function pauseGame() {
+  gameOn = !gameOn;
+  pauseBtn.innerText = gameOn ? "Pause" : "Start";
+  timer.stop();
+  // clearInterval(checkWinInterval)
+  clearInterval(intervalDoingNothing);
+  for (const intervalItem of ballIntervals) {
+    clearInterval(intervalItem);
+  }
+  ballIntervals = [];
+  for (const ball of balls) {
+    ball.timer.stop();
+  }
 }
-function resumeGame(){
-    gameOn = !gameOn
-    pauseBtn.innerText = gameOn?"Pause":"Start"
-    timer.start(timerDiv)
-    
+function resumeGame() {
+  gameOn = !gameOn;
+  pauseBtn.innerText = gameOn ? "Pause" : "Start";
+  timer.start(timerDiv);
 }
-function pauseResumeGame(){
-    if(gameOn){
-        pauseGame()
-    }else{
-        resumeGame()
-    }
- 
-    
+function pauseResumeGame() {
+  if (gameOn) {
+    pauseGame();
+  } else {
+    resumeGame();
+  }
 }
 
 function removeScoreForDoingNothing() {
-   intervalDoingNothing = setInterval(() => {
+  intervalDoingNothing = setInterval(() => {
     if (oldScore === score) {
       score -= 1;
       scoreDiv.innerText = score;
@@ -304,7 +305,7 @@ function ballRotation(className) {
     console.log(balls);
   }, rotationTime * SECOND);
 
-  ballIntervals.push(intervalBall)
+  ballIntervals.push(intervalBall);
 }
 
 function createBall(className) {
