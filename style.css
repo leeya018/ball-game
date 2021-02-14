@@ -11,7 +11,7 @@ body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background: url("./images/beach.jpg");
+  background: url("./Assets/Images/beach.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -66,15 +66,15 @@ body {
 }
 
 .basket{
-    background:url("./images/target.svg");
+    background:url("./Assets/Images/target.svg");
 }
 
 .ball-a {
-    background:url("./images/ballA.png");
+    background:url("./Assets/Images/ballA.png");
 }
 
 .ball-b {
-    background:url("./images/ballB.png");
+    background:url("./Assets/Images/ballB.png");
 }
 .ball-a,
 .ball-b,
@@ -88,7 +88,7 @@ body {
 }
 .frozen {
   position: absolute;
-  background: url("./images/x.png");
+  background: url("./Assets/Images/x.png");
   background-repeat: no-repeat;
   background-size: contain;
   width: 100%;
@@ -121,7 +121,7 @@ body {
   height: 100%; /* Full height */
   overflow: hidden; /* Enable scroll if needed */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 }
@@ -149,13 +149,26 @@ body {
   height: 2em;
   z-index: 12;
   border-radius: .5rem;
-  background-color: blue;
+  background-color: rgb(26, 84, 117);
   color: white;
   font-size: 1.1em;
   padding: .1em;
 
 }
 
-.visible{
+
+.point-on-screen{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 40em;
   display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.visible{
+  display: flex;
 }

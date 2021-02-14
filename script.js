@@ -1,6 +1,48 @@
 // import { Timer } from "./timer.js";
 // import { MovingElement, Element } from "./element.js";
+class AudioController {
+  constructor() {
+    this.bgMusic = new Audio("Assets/Audio/lindzey.mp3");
+    this.negativeSound = new Audio("Assets/Audio/negative.wav");
+    this.positiveSound = new Audio("Assets/Audio/positive.wav");
+    this.victorySound = new Audio("Assets/Audio/victory.wav");
+    this.gameOverSound = new Audio("Assets/Audio/gameOver.wav");
+    this.cantTouchSound = new Audio("Assets/Audio/cantTouch.mp3");
+    this.bgMusic.volume = 0.2;
+    this.bgMusic.loop = true;
+  }
+  startMusic() {
+    this.bgMusic.play();
+  }
+  stopMusic() {
+    this.bgMusic.pause();
+    this.bgMusic.currentTime = 0;
+  }
+  positive() {
+    this.positiveSound.play();
+  }
+  negative() {
+    this.negativeSound.play();
+  }
+  cantTouch() {
+    this.cantTouchSound.currentTime = 1;
+    this.cantTouchSound.play();
+    this.bgMusic.volume = 0;
 
+    setTimeout(() => {
+      this.bgMusic.volume = 0.2;
+      this.cantTouchSound.pause();
+    }, 3000);
+  }
+  victory() {
+    this.stopMusic();
+    this.victorySound.play();
+  }
+  gameOver() {
+    this.stopMusic();
+    this.gameOverSound.play();
+  }
+}
 export class Timer {
   constructor(className, time, el) {
     this.time = time;
@@ -202,6 +244,7 @@ let timerDiv = document.querySelector(".timer");
 let pauseBtn = document.querySelector(".pauseBtn");
 let startGameBtn = document.querySelector(".start-game-btn");
 let instructions = document.querySelector(".instructions");
+let pointsOnScreen = document.querySelector(".point-on-screen");
 
 let intervalBall,
   checkWinInterval,
@@ -214,6 +257,7 @@ let basket,
   balls = [];
 let score = 0;
 scoreDiv.innerText = 0;
+let audioController = new AudioController();
 
 const TOTAL_TIME = 3 * 60;
 const SCORE_TO_BIT = 10;
@@ -231,6 +275,7 @@ let oldScore = 0;
 startGameBtn.addEventListener("click", startGame);
 
 function startGame() {
+  audioController.startMusic();
   instructions.classList.toggle("visible");
   gameOn = true;
   basket = new Element("basket");
@@ -244,13 +289,24 @@ function startGame() {
   ballRotation(CLASS_A);
   ballRotation(CLASS_B);
 }
+function showScoreTimeOut(score) {
+  pointsOnScreen.innerText = score > 0 ? "+" + score : score;
+  pointsOnScreen.style.color =
+    score > 0 ? "rgba(15, 153, 38, 0.7)" : "rgba(202, 8, 8, 0.7)";
 
+  pointsOnScreen.classList.add("visible");
+  setTimeout(() => {
+    pointsOnScreen.classList.remove("visible");
+  }, 500);
+}
 function checkWin() {
   checkWinInterval = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
       if (score >= SCORE_TO_BIT) {
+        audioController.victory();
         confirm("you won");
       } else {
+        audioController.gameOver();
         confirm("you lose");
       }
       clearInterval(checkWinInterval);
@@ -291,6 +347,8 @@ function removeScoreForDoingNothing() {
   intervalDoingNothing = setInterval(() => {
     if (oldScore === score) {
       score -= 1;
+      showScoreTimeOut(-1);
+      audioController.negative();
       scoreDiv.innerText = score;
     } else {
       oldScore = score;
@@ -362,15 +420,23 @@ function updatePoints(ball) {
     let findB = tempBalls.find((b) => b.className === CLASS_B);
     if (findB) {
       score -= 4;
+      showScoreTimeOut(-4);
+      audioController.negative();
     } else {
       if (ball.timer.time <= 4) {
         score += 1;
+        showScoreTimeOut(+1);
+        audioController.positive();
       } else {
         score -= 1;
+        showScoreTimeOut(-1);
+        audioController.negative();
       }
     }
   } else {
     score += 2;
+    showScoreTimeOut(+2);
+    audioController.positive();
   }
 }
 
@@ -394,7 +460,10 @@ function handleMove(e, ball) {
 function createEvents(ball) {
   ball.element.addEventListener("mousedown", () => {
     if (!ball.frozen) {
+      audioController.cantTouchSound.pause();
       ball.move1 = true;
+    } else {
+      audioController.cantTouch();
     }
     console.log(ball.move + " " + ball.className);
   });
