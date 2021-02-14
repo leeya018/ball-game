@@ -245,6 +245,7 @@ let pauseBtn = document.querySelector(".pauseBtn");
 let startGameBtn = document.querySelector(".start-game-btn");
 let instructions = document.querySelector(".instructions");
 let pointsOnScreen = document.querySelector(".point-on-screen");
+let finish = document.querySelector(".finish")
 
 let intervalBall,
   checkWinInterval,
@@ -270,7 +271,6 @@ const CLASS_B = "ball-b";
 const INTERVAL_TIME_FOR_DOING_NOTHING = 8000;
 let oldScore = 0;
 
-// instructions.children[0].children[0].innerText =""
 
 startGameBtn.addEventListener("click", startGame);
 
@@ -302,14 +302,29 @@ function showScoreTimeOut(score) {
 function checkWin() {
   checkWinInterval = setInterval(() => {
     if (timer.time === TOTAL_TIME) {
+      finish.classList.add("visible")
       if (score >= SCORE_TO_BIT) {
         audioController.victory();
-        confirm("you won");
+        // confirm("you won");
+        finish.innerText = "You Won!!"
+        finish.style.color = "green"
       } else {
         audioController.gameOver();
-        confirm("you lose");
+        // confirm("you lose");
+        finish.innerText = "You Lost!!"
+        finish.style.color = "red"
       }
-      clearInterval(checkWinInterval);
+      pauseGame()
+      setTimeout(() => {
+        audioController = null        
+      }, 2000)
+      
+
+
+      setTimeout(() => {
+        audioController = null
+      }, 2000)
+      
     }
   });
 }

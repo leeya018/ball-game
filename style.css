@@ -35,25 +35,11 @@ body {
 
 .nav .section{
     display: flex;
-    /* position: absolute;
-    top:.5em;
-    font-size:2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 1; */
-}
-
-/* .time-section{
-    left: 1em;
-
-}
-.score-section{
-    right: 50%;
+    z-index: 10;
 }
 .section span{
   padding-right: 1rem;
-} */
+}
 .ball,
 .basket {
   position: absolute;
@@ -111,7 +97,7 @@ body {
     padding: .3em;
     width: 5em;
 }
-
+.finish,
 .instructions{
   z-index: 11;
   position: absolute; /* Stay in place */
@@ -167,8 +153,12 @@ body {
   display: none;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 }
 
 .visible{
   display: flex;
+}
+.finish{
+  font-size: 10em;
 }
